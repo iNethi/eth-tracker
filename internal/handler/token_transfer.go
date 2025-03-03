@@ -30,13 +30,13 @@ func HandleTokenTransferLog(hc *HandlerContainer) router.LogHandlerFunc {
 			return err
 		}
 
-		proceed, err := hc.checkWithinNetwork(ctx, lp.Log.Address.Hex(), from.Hex(), to.Hex())
-		if err != nil {
-			return err
-		}
-		if !proceed {
-			return nil
-		}
+		// proceed, err := hc.checkWithinNetwork(ctx, lp.Log.Address.Hex(), from.Hex(), to.Hex())
+		// if err != nil {
+		// 	return err
+		// }
+		// if !proceed {
+		// 	return nil
+		// }
 
 		tokenTransferEvent := event.Event{
 			Index:           lp.Log.Index,
@@ -79,13 +79,13 @@ func HandleTokenTransferInputData(hc *HandlerContainer) router.InputDataHandlerF
 				return err
 			}
 
-			proceed, err := hc.checkWithinNetwork(ctx, idp.ContractAddress, idp.From, to.Hex())
-			if err != nil {
-				return err
-			}
-			if !proceed {
-				return nil
-			}
+			// proceed, err := hc.checkWithinNetwork(ctx, idp.ContractAddress, idp.From, to.Hex())
+			// if err != nil {
+			// 	return err
+			// }
+			// if !proceed {
+			// 	return nil
+			// }
 
 			tokenTransferEvent.Payload = map[string]any{
 				"from":  idp.From,
@@ -105,13 +105,13 @@ func HandleTokenTransferInputData(hc *HandlerContainer) router.InputDataHandlerF
 				return err
 			}
 
-			proceed, err := hc.checkWithinNetwork(ctx, idp.ContractAddress, from.Hex(), to.Hex())
-			if err != nil {
-				return err
-			}
-			if !proceed {
-				return nil
-			}
+			// proceed, err := hc.checkWithinNetwork(ctx, idp.ContractAddress, from.Hex(), to.Hex())
+			// if err != nil {
+			// 	return err
+			// }
+			// if !proceed {
+			// 	return nil
+			// }
 
 			tokenTransferEvent.Payload = map[string]any{
 				"from":  from.Hex(),
