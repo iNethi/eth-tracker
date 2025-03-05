@@ -28,7 +28,6 @@ type (
 )
 
 func New(o CacheOpts) (Cache, error) {
-	o.Logg.Info("initializing cache", "registries", o.Registries, "watchlist", o.Watchlist, "blacklist", o.Blacklist)
 	var cache Cache
 
 	switch o.CacheType {
@@ -50,7 +49,7 @@ func New(o CacheOpts) (Cache, error) {
 	if err := bootstrapCache(
 		o.Chain,
 		cache,
-		[]string{"0xd1FB944748aca327a1ba036B082993D9dd9Bfa0C", "0x0cc9f4fff962def35bb34a53691180b13e653030"},
+		[]string{"0xF9301590B107797A15EC4e1C9E2Dbc090f4C2B3E"},
 		o.Watchlist,
 		o.Blacklist,
 		o.Logg,
