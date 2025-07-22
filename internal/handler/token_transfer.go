@@ -30,14 +30,6 @@ func HandleTokenTransferLog(hc *HandlerContainer) router.LogHandlerFunc {
 			return err
 		}
 
-		proceed, err := hc.checkWithinNetwork(ctx, lp.Log.Address.Hex(), from.Hex(), to.Hex())
-		if err != nil {
-			return err
-		}
-		if !proceed {
-			return nil
-		}
-
 		tokenTransferEvent := event.Event{
 			Index:           lp.Log.Index,
 			Block:           lp.Log.BlockNumber,
@@ -77,14 +69,6 @@ func HandleTokenTransferInputData(hc *HandlerContainer) router.InputDataHandlerF
 
 			if err := tokenTransferSig.DecodeArgs(w3.B(idp.InputData), &to, &value); err != nil {
 				return err
-			}
-
-			proceed, err := hc.checkWithinNetwork(ctx, idp.ContractAddress, idp.From, to.Hex())
-			if err != nil {
-				return err
-			}
-			if !proceed {
-				return nil
 			}
 
 			tokenTransferEvent.Payload = map[string]any{
