@@ -11,7 +11,7 @@ func bootstrapEventRouter(cacheProvider cache.Cache, pubCB router.Callback) *rou
 	handlerContainer := handler.New(cacheProvider)
 	router := router.New(pubCB)
 
-	router.RegisterContractCreationHandler(handler.HandleContractCreation())
+	router.RegisterContractCreationHandler(handler.HandleContractCreation(handlerContainer))
 
 	router.RegisterLogRoute(w3.H("0x26162814817e23ec5035d6a2edc6c422da2da2119e27cfca6be65cc2dc55ca4c"), handler.HandleFaucetGiveLog())
 	router.RegisterLogRoute(w3.H("0xa226db3f664042183ee0281230bba26cbf7b5057e50aee7f25a175ff45ce4d7f"), handler.HandleIndexAddLog(handlerContainer))
@@ -26,6 +26,8 @@ func bootstrapEventRouter(cacheProvider cache.Cache, pubCB router.Callback) *rou
 	router.RegisterLogRoute(w3.H("0x894e56e1dac400b4475c83d8af0f0aa44de17c62764bd82f6e768a504e242461"), handler.HandleCustodialRegistrationLog())
 	router.RegisterLogRoute(w3.H("0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"), handler.HandleTokenTransferLog(handlerContainer))
 	router.RegisterLogRoute(w3.H("0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925"), handler.HandleTokenApproveLog(handlerContainer))
+	router.RegisterLogRoute(w3.H("0x5f7542858008eeb041631f30e6109ae94b83a58e9a58261dd2c42c508850f939"), handler.HandleTokenTransferFromLog(handlerContainer))
+	router.RegisterLogRoute(w3.H("0x06526a30af2ff868c2686df12e95844d8ae300416bbec5d5ccc2d2f4afdb17a0"), handler.HandleQuoterUpdatedLog())
 
 	router.RegisterInputDataRoute("63e4bff4", handler.HandleFaucetGiveInputData())
 	router.RegisterInputDataRoute("de82efb4", handler.HandleFaucetGiveInputData())
@@ -43,6 +45,7 @@ func bootstrapEventRouter(cacheProvider cache.Cache, pubCB router.Callback) *rou
 	router.RegisterInputDataRoute("a9059cbb", handler.HandleTokenTransferInputData(handlerContainer))
 	router.RegisterInputDataRoute("23b872dd", handler.HandleTokenTransferInputData(handlerContainer))
 	router.RegisterInputDataRoute("095ea7b3", handler.HandleTokenApproveInputData(handlerContainer))
+	router.RegisterInputDataRoute("f912c64b", handler.HandleQuoterUpdatedInputData())
 
 	return router
 }

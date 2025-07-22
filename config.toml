@@ -10,8 +10,8 @@ db_type = "bolt"
 # Tune max go routines that can process blocks
 # Defaults to (nproc * 3)
 pool_size = 0
-# If you are using an archive node, set this to true
 batch_size = 100
+
 
 [redis]
 dsn = "127.0.0.1:6379"
@@ -27,7 +27,7 @@ start_block = 0
 
 [bootstrap]
 # This will bootstrap the cache on which addresses to track
-ge_registry = "0x0f8E97ef2d6A42CF62549D4924FCBdcE83A1C6A5"
+ge_registry = ["0x0f8E97ef2d6A42CF62549D4924FCBdcE83A1C6A5"]
 watchlist = [""]
 blacklist = [""]
 

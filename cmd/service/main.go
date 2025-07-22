@@ -74,7 +74,7 @@ func main() {
 
 	cacheOpts := cache.CacheOpts{
 		Chain:      chain,
-		Registries: []string{ko.MustString("bootstrap.ge_registry")},
+		Registries: ko.MustStrings("bootstrap.ge_registry"),
 		Watchlist:  ko.Strings("bootstrap.watchlist"),
 		Blacklist:  ko.Strings("bootstrap.blacklist"),
 		CacheType:  ko.MustString("core.cache_type"),
@@ -116,7 +116,6 @@ func main() {
 	poolOpts := pool.PoolOpts{
 		Logg:        lo,
 		WorkerCount: ko.Int("core.pool_size"),
-		BatchSize:   ko.MustInt("core.batch_size"),
 		Processor:   blockProcessor,
 	}
 	if ko.Int("core.pool_size") <= 0 {
