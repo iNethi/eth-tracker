@@ -51,7 +51,7 @@ func HandleTokenTransferLog(hc *HandlerContainer) router.LogHandlerFunc {
 	}
 }
 
-func HandleTokenTransferInputData(hc *HandlerContainer) router.InputDataHandlerFunc {
+func HandleTokenTransferInputData() router.InputDataHandlerFunc {
 	return func(ctx context.Context, idp router.InputDataPayload, c router.Callback) error {
 		tokenTransferEvent := event.Event{
 			Block:           idp.Block,
@@ -91,14 +91,6 @@ func HandleTokenTransferInputData(hc *HandlerContainer) router.InputDataHandlerF
 				return err
 			}
 
-			proceed, err := hc.checkWithinNetwork(ctx, idp.ContractAddress, from.Hex(), to.Hex())
-			if err != nil {
-				return err
-			}
-			if !proceed {
-				return nil
-			}
-
 			tokenTransferEvent.Payload = map[string]any{
 				"from":  from.Hex(),
 				"to":    to.Hex(),
@@ -112,7 +104,7 @@ func HandleTokenTransferInputData(hc *HandlerContainer) router.InputDataHandlerF
 	}
 }
 
-func HandleTokenTransferFromLog(hc *HandlerContainer) router.LogHandlerFunc {
+func HandleTokenTransferFromLog() router.LogHandlerFunc {
 	return func(ctx context.Context, lp router.LogPayload, c router.Callback) error {
 		var (
 			from    common.Address
@@ -123,14 +115,6 @@ func HandleTokenTransferFromLog(hc *HandlerContainer) router.LogHandlerFunc {
 
 		if err := tokenTransferFromEvent.DecodeArgs(lp.Log, &from, &to, &spender, &value); err != nil {
 			return err
-		}
-
-		proceed, err := hc.checkWithinNetwork(ctx, lp.Log.Address.Hex(), from.Hex(), to.Hex())
-		if err != nil {
-			return err
-		}
-		if !proceed {
-			return nil
 		}
 
 		tokenTransferFromEvent := event.Event{

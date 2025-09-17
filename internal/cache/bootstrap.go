@@ -31,6 +31,9 @@ func bootstrapCache(
 	defer cancel()
 
 	for _, registry := range registries {
+		if registry == "" {
+			continue
+		}
 		registryMap, err := chain.Provider().RegistryMap(ctx, ethutils.HexToAddress(registry))
 		if err != nil {
 			lo.Error("could not fetch registry", "registry", registry, "error", err)
@@ -222,6 +225,25 @@ func bootstrapCache(
 			return err
 		}
 		lo.Info("registry bootstrap complete", "registry", registry, "current_cache_size", cacheSize)
+	}
+
+	for _, watchlistItem := range watchlist {
+		if watchlistItem == "" {
+			continue
+		}
+		if err := cache.Add(ctx, ethutils.HexToAddress(watchlistItem).Hex()); err != nil {
+			return err
+		}
+		lo.Info("added watchlist item to cache", "address", watchlistItem)
+	}
+	for _, blacklistItem := range blacklist {
+		if blacklistItem == "" {
+			continue
+		}
+		if err := cache.Remove(ctx, ethutils.HexToAddress(blacklistItem).Hex()); err != nil {
+			return err
+		}
+		lo.Info("removed blacklist item from cache", "address", blacklistItem)
 	}
 
 	return nil
